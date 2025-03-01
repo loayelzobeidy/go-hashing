@@ -10,6 +10,7 @@ import (
 	"temp/internal/encrypt"
 	"temp/internal/models"
 	"temp/internal/users"
+	"temp/internal/utils"
 
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
@@ -49,6 +50,7 @@ func main() {
 	}
 
 	router := gin.Default()
+	router.Use(utils.SanitizeMiddleware)
 	router.POST("/login", userHandler.LoginUser)
 	router.POST("/register", userHandler.RegisterUser)
 	protected := router.Group("/protected")

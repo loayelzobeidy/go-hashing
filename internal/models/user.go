@@ -12,7 +12,7 @@ type User struct {
 	CreatedAt time.Time
 	UpdatedAt time.Time
 	DeletedAt gorm.DeletedAt `gorm:"index"`
-	Username  string         `gorm:"unique;not null"`
+	Username  string         `gorm:"unique;not null" binding:"required"`
 	Email     string         `gorm:"unique;not null"`
 	Password  string         `gorm:"not null"`
 	Age       int

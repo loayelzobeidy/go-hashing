@@ -59,11 +59,12 @@ func (uh *UserHandler) LoginUser(c *gin.Context) {
 		c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid username or password"})
 		return
 	}
-	token, err := auth.GenerateUserJWT(userRequest)
+	accessToken, refreshToken, err := auth.GenerateTokens(&user)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"message": "Login successful", "accessToken": token})
+	c.JSON(http.StatusOK, gin.H{"access_token": accessToken, "refresh_token": refreshToken})
+
 }

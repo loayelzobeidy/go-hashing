@@ -16,4 +16,5 @@ type User struct {
 	Email     string         `gorm:"unique;not null"`
 	Password  string         `gorm:"not null"`
 	Age       int
+	Claims    string
 }

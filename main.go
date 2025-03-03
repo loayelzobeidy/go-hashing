@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 
+	"temp/internal/auth"
 	"temp/internal/encrypt"
 	"temp/internal/models"
 	"temp/internal/users"
@@ -25,6 +26,8 @@ func main() {
 		log.Fatalf("failed to connect database: %v", err)
 	}
 	userHandler := &users.UserHandler{DB: db}
+	authHandler := &auth.AuthHandler{DB: db}
+
 	err = db.AutoMigrate(&models.User{})
 	if err != nil {
 		log.Fatalf("failed to migrate database: %v", err)
@@ -39,6 +42,7 @@ func main() {
 	config.AllowAllOrigins = true // Allows all origins (not recommended for production)
 	router.Use(cors.New(config))
 	router.Use(utils.SanitizeMiddleware)
+	authHandler.SetupRoutes(router)
 	userHandler.SetupRoutes(router)
 	encrypt.SetupRoutes(router)
 	port := ":8080"
